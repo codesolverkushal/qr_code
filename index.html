@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff4757;
+            --secondary: #2f3542;
+            --accent: #ffa502;
+            --light: #f1f2f6;
+            --dark: #2f3542;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark);
+            background-color: #f9f9f9;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 50vh;
+            min-height: 300px;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4') center/cover no-repeat;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            z-index: 1;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        
+        .hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .tagline {
+            display: inline-block;
+            background-color: var(--accent);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+        }
+        
+        /* Content Sections */
+        .section {
+            padding: 80px 0;
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        .section-dark {
+            background-color: var(--dark);
+            color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            font-size: 2.2em;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            height: 4px;
+            width: 50px;
+            background-color: var(--primary);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* About Section */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s;
+        }
+        
+        .about-image img:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Info Cards Section */
+        .info-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+        
+        .info-card-icon {
+            font-size: 2.5em;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .info-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        /* Menu Section */
+        .menu-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+        
+        .pdf-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .pdf-button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1em;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 10px 20px rgba(255, 71, 87, 0.3);
+        }
+        
+        .pdf-button:hover {
+            background-color: #ff2c3c;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 25px rgba(255, 71, 87, 0.4);
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .menu-category {
+            text-align: center;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .menu-category:hover {
+            transform: translateY(-10px);
+        }
+        
+        .menu-category img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .menu-category h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-col h3 {
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-col h3::after {
+            content: '';
+            position: absolute;
+            height: 3px;
+            width: 30px;
+            background-color: var(--primary);
+            bottom: 0;
+            left: 0;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="tagline">Taste the difference</span>
+            <h1>Savory Delights</h1>
+            <p>An extraordinary culinary experience that will tantalize your taste buds</p>
+        </div>
+    </section>
+    
+    <!-- About Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Welcome to <strong>Savory Delights</strong>, where passion meets culinary excellence. Our journey began with a simple dream: to create memorable dining experiences that celebrate the art of food.</p>
+                    <p>Every dish we serve is crafted with love using the freshest ingredients sourced from local farmers. Our team of experienced chefs brings creativity and precision to the table, ensuring that each bite is a delightful surprise.</p>
+                    <p>Whether you're joining us for a casual lunch, a romantic dinner, or a special celebration, we promise an unforgettable experience that will keep you coming back for more.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://5.imimg.com/data5/SELLER/Default/2021/10/AW/BU/IT/82571788/restaurant-interior-design-500x500.jpg" alt="Restaurant interior" />
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Info Section -->
+    <section class="section section-dark">
+        <div class="container">
+            <h2 class="section-title">Visit Us</h2>
+            <div class="info-cards">
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Location</h3>
+                    <p>123 Main Street<br>City, State, ZIP</p>
+                    <p>Located in the heart of downtown, with convenient parking nearby.</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Hours</h3>
+                    <p><strong>Monday - Thursday:</strong> 11am - 10pm</p>
+                    <p><strong>Friday - Saturday:</strong> 11am - 11pm</p>
+                    <p><strong>Sunday:</strong> 12pm - 9pm</p>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-card-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <h3>Contact</h3>
+                    <p><strong>Phone:</strong> (555) 123-4567</p>
+                    <p><strong>Email:</strong> info@savorydelights.com</p>
+                    <p>Reservations recommended for dinner service</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Menu Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Our Menus</h2>
+            <div class="menu-intro">
+                <p>Explore our carefully curated menus featuring signature dishes, seasonal specialties, and culinary innovations. From fresh appetizers to decadent desserts, there's something for everyone.</p>
+            </div>
+            
+            <div class="menu-grid">
+                <div class="menu-category">
+                    <img src="/api/placeholder/400/300" alt="Lunch dishes" />
+                    <h3>Lunch</h3>
+                    <p>Quick and satisfying options perfect for your midday break.</p>
+                </div>
+                
+                <div class="menu-category">
+                    <img src="/api/placeholder/400/300" alt="Dinner dishes" />
+                    <h3>Dinner</h3>
+                    <p>Elegant entrees and chef's specialties for the perfect evening.</p>
+                </div>
+                
+                <div class="menu-category">
+                    <img src="/api/placeholder/400/300" alt="Special offers" />
+                    <h3>Specials</h3>
+                    <p>Limited-time offers and seasonal creations you won't want to miss.</p>
+                </div>
+            </div>
+            
+            <div class="pdf-buttons">
+                <a href="pdf/lunch.pdf" class="pdf-button" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Lunch Menu PDF
+                </a>
+                <a href="pdf/lunch.pdf" class="pdf-button" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Dinner Menu PDF
+                </a>
+                <a href="pdf/lunch.pdf" class="pdf-button" target="_blank">
+                    <i class="fas fa-file-pdf"></i> Special Offers PDF
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>Savory Delights</h3>
+                    <p>Bringing exceptional dining experiences to our community since 2010.</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-yelp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Main Street, City, State, ZIP</p>
+                    <p><i class="fas fa-phone-alt"></i> (555) 123-4567</p>
+                    <p><i class="fas fa-envelope"></i> info@savorydelights.com</p>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <p><a href="#" style="color: white; text-decoration: none;">Home</a></p>
+                    <p><a href="#" style="color: white; text-decoration: none;">About Us</a></p>
+                    <p><a href="#" style="color: white; text-decoration: none;">Menu</a></p>
+                    <p><a href="#" style="color: white; text-decoration: none;">Reservations</a></p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2025 Savory Delights. All rights reserved.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
